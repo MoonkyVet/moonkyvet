@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'pets_page.dart';
-import 'select_pet_page.dart';
-import 'profile_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,7 +9,7 @@ class HomePage extends StatelessWidget {
     final cardData = [
       {'title': 'My Pets', 'icon': Icons.pets, 'route': '/myPets'},
       {'title': 'My Profile', 'icon': Icons.person, 'route': '/profile'},
-      {'title': 'Find VETS near me', 'icon': Icons.map, 'route': '/findVets'},
+      {'title': 'Find VETS near me', 'icon': Icons.map, 'route': '/findVetsProfile'},
       {'title': 'Subscription', 'icon': Icons.monetization_on, 'route': '/subscription'},
       {'title': 'Talk with Moonky', 'icon': Icons.chat_bubble_outline, 'route': '/chat'},
     ];
@@ -51,6 +48,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
+          // Gradient overlay behind AppBar
           Positioned(
             top: 0,
             left: 0,
@@ -69,7 +67,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          // Content
+          // Grid Content
           Container(
             padding: const EdgeInsets.all(16.0),
             child: GridView.builder(
@@ -98,8 +96,8 @@ class HomePage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    elevation: 6,
-                    color: Colors.white.withOpacity(0.75),
+                    elevation: 4,
+                    color: Colors.black.withOpacity(0.5),
                     child: Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -107,7 +105,7 @@ class HomePage extends StatelessWidget {
                           Icon(
                             item['icon'] as IconData,
                             size: 48,
-                            color: Colors.teal[700],
+                            color: Colors.white,
                           ),
                           const SizedBox(height: 10),
                           Text(
@@ -115,11 +113,12 @@ class HomePage extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                             textAlign: TextAlign.center,
                           ),
                           if (isLocked)
-                            const Icon(Icons.lock_outline, size: 20, color: Colors.grey)
+                            const Icon(Icons.lock_outline, size: 20, color: Colors.white70),
                         ],
                       ),
                     ),

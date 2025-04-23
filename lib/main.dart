@@ -12,6 +12,7 @@ import 'pages/find_vets_page.dart';
 import 'pages/subscription_page.dart';
 import 'pages/chat_page.dart';
 import 'pages/landing_page.dart';
+import 'pages/find_vets_by_profile_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +40,12 @@ class MyApp extends StatelessWidget {
         '/myPets': (_) => PetsPage(),
         '/profile': (_) => ProfilePage(),
         '/selectPet': (_) => SelectPetPage(),
-        '/findVets': (_) => FindVetsPage(),
+        '/findVets': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as String;
+          return FindVetsPage(address: args);
+        },
+        '/findVetsProfile': (context) => const FindVetsByProfilePage(),
+
         '/subscription': (_) => SubscriptionPage(),
         '/chat': (_) => ChatPage(),
       },

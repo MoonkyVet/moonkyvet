@@ -32,8 +32,18 @@ dependencies:
     sdk: flutter
   firebase_core: ^3.12.1
   firebase_auth: ^5.5.2
+  cloud_firestore: ^5.0.0
+  firebase_storage: ^12.0.0
+  image_picker: ^1.0.4
   google_sign_in: ^6.2.1
-
+  google_maps_flutter: ^2.5.0
+  geocoding: ^2.1.0
+  geolocator: ^10.1.0
+  google_place: ^0.4.7
+  http: ^0.13.5
+  google_maps_webservice: ^0.0.20-nullsafety.5 # Required for places API
+  url_launcher: ^6.2.1
+  permission_handler: ^11.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -62,6 +72,7 @@ flutter:
     - assets/images/dachshund-4.png
     - assets/images/landing_background.png
     - assets/images/login_background.png
+    - assets/images/profile_background.png
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package

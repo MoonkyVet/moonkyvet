@@ -300,10 +300,15 @@ class _PetsPageState extends State<PetsPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black.withOpacity(0.6), // fundal mai vizibil
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white), // culoare albă garantată
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Text('My Pets', style: TextStyle(color: Colors.white)),
       ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white10,
         child: Icon(Icons.add, color: Colors.white),
@@ -366,18 +371,36 @@ class _PetsPageState extends State<PetsPage> {
                             ),
                           ),
                           Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.edit, color: Colors.white70),
-                                onPressed: () => _addOrEditPet(pet: pet),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.delete, color: Colors.redAccent),
-                                onPressed: () => _deletePet(pet.id),
-                              ),
-                            ],
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: IconButton(
+                                    iconSize: 28,
+                                    icon: Icon(Icons.edit, color: Colors.white),
+                                    onPressed: () => _addOrEditPet(pet: pet),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: IconButton(
+                                    iconSize: 28,
+                                    icon: Icon(Icons.delete, color: Colors.redAccent),
+                                    onPressed: () => _deletePet(pet.id),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

@@ -11,7 +11,8 @@ class HomePage extends StatelessWidget {
       {'title': 'My Profile', 'icon': Icons.person, 'route': '/profile'},
       {'title': 'Find VETS near me', 'icon': Icons.map, 'route': '/findVetsProfile'},
       {'title': 'Subscription', 'icon': Icons.monetization_on, 'route': '/subscription'},
-      {'title': 'Talk with Moonky', 'icon': Icons.chat_bubble_outline, 'route': '/chat'},
+      {'title': 'Talk with Moonky     AI Vet', 'icon': Icons.chat_bubble_outline, 'route': '/chat'},
+      {'title': 'Talk with a real Vet', 'icon': Icons.chat_bubble_outline, 'route': '/chat'},
     ];
 
     return Scaffold(

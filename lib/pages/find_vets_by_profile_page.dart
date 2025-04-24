@@ -211,13 +211,14 @@ class _FindVetsByProfilePageState extends State<FindVetsByProfilePage> {
     return BitmapDescriptor.fromBytes(bytes);
   }
 
+  Future<void> _showVetModal(String placeId) async {
+    final details = await placesApi.getDetailsByPlaceId(placeId);
+    if (details.status != 'OK') return;
 
-
-  void _showVetModal(String placeId) {
-    final vetClinic = vetClinics.firstWhere((v) => v.vet.placeId == placeId);
-    final vet = vetClinic.vet;
-    final phone = vetClinic.phoneNumber;
+    final vet = details.result;
+    final phone = vet.formattedPhoneNumber;
     final photos = vet.photos;
+    final hours = vet.openingHours?.weekdayText;
 
     showModalBottomSheet(
       context: context,
@@ -230,7 +231,6 @@ class _FindVetsByProfilePageState extends State<FindVetsByProfilePage> {
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (photos != null && photos.isNotEmpty)
@@ -252,7 +252,7 @@ class _FindVetsByProfilePageState extends State<FindVetsByProfilePage> {
                 ),
               const SizedBox(height: 12),
               Text(vet.name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-              Text(vet.vicinity ?? '', style: const TextStyle(color: Colors.white70)),
+              Text(vet.formattedAddress ?? '', style: const TextStyle(color: Colors.white70)),
               if (vet.rating != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
@@ -263,6 +263,11 @@ class _FindVetsByProfilePageState extends State<FindVetsByProfilePage> {
                     ],
                   ),
                 ),
+              if (hours != null && hours.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                const Text("Opening Hours:", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                for (final h in hours) Text(h, style: const TextStyle(color: Colors.white70)),
+              ],
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -279,7 +284,7 @@ class _FindVetsByProfilePageState extends State<FindVetsByProfilePage> {
                   IconButton(
                     icon: const Icon(Icons.directions, color: Colors.white),
                     onPressed: () async {
-                      final url = 'https://www.google.com/maps/dir/?api=1&destination=${Uri.encodeComponent(vet.vicinity ?? vet.name)}';
+                      final url = 'https://www.google.com/maps/dir/?api=1&destination=${Uri.encodeComponent(vet.name)}';
                       if (await canLaunchUrl(Uri.parse(url))) {
                         await launchUrl(Uri.parse(url));
                       }
@@ -298,9 +303,16 @@ class _FindVetsByProfilePageState extends State<FindVetsByProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black.withOpacity(0.5),
+        backgroundColor: Colors.black.withOpacity(0.9),
         elevation: 0,
-        title: const Text('Vets by Profile Address', style: TextStyle(color: Colors.white)),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Vets by Profile Address', style: TextStyle(color: Colors.white)),
+            if (currentAddress != null)
+              Text(currentAddress!, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          ],
+        ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: loading

@@ -17,7 +17,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
-    googlePlace = GooglePlace("AIzaSyDGOs5SQxeY3rHvkJgdUE-R8Ip5rApwk-4"); // 🔑 Replace this
+    googlePlace = GooglePlace("YOUR_API_KEY_HERE");
     _addressController.addListener(_onAddressChanged);
   }
 
@@ -96,13 +96,13 @@ class _LandingPageState extends State<LandingPage> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: Colors.black.withOpacity(0.65), // darker background for input
+                    color: Colors.black.withOpacity(0.65),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(
-                        height: 42, // 👈 keeps it same height as predictions
+                        height: 42,
                         child: TextField(
                           controller: _addressController,
                           style: const TextStyle(color: Colors.white, fontSize: 14),
@@ -118,12 +118,10 @@ class _LandingPageState extends State<LandingPage> {
                               borderSide: BorderSide.none,
                             ),
                           ),
-                          maxLines: 1, // 👈 prevents vertical resizing
+                          maxLines: 1,
                           textInputAction: TextInputAction.search,
                         ),
                       ),
-
-
                       if (predictions.isNotEmpty)
                         ListView.builder(
                           shrinkWrap: true,
@@ -153,10 +151,9 @@ class _LandingPageState extends State<LandingPage> {
                   ),
                 ),
 
-
                 const SizedBox(height: 40),
                 const Text(
-                  'Get access to awesome features such as:',
+                  'Who are you?',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -165,17 +162,21 @@ class _LandingPageState extends State<LandingPage> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
-                const FeatureItem(text: 'Track your pets profiles and medical history'),
-                const FeatureItem(text: 'Find vets near you instantly'),
-                const FeatureItem(text: 'Talk with our smart AI Vet Assistant'),
-                const FeatureItem(text: 'Reminders for vaccinations & check-ups'),
-                const SizedBox(height: 40),
-                TextButton(
-                  onPressed: () => Navigator.pushNamed(context, '/login'),
-                  child: const Text(
-                    'Already have an account? Login or Sign up →',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _RoleCard(
+                      icon: Icons.pets,
+                      label: 'Sign in as Pet Owner',
+                      onTap: () => Navigator.pushNamed(context, '/login'),
+                    ),
+                    const SizedBox(width: 20),
+                    _RoleCard(
+                      icon: Icons.medical_services_outlined,
+                      label: 'Sign in as Vet',
+                      onTap: () => Navigator.pushNamed(context, '/register-vet'),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -186,25 +187,41 @@ class _LandingPageState extends State<LandingPage> {
   }
 }
 
-class FeatureItem extends StatelessWidget {
-  final String text;
-  const FeatureItem({super.key, required this.text});
+class _RoleCard extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _RoleCard({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child: Row(
-        children: [
-          const Icon(Icons.check_circle_outline, color: Colors.lightGreenAccent),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 16, color: Colors.white),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 140,
+        height: 140,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white.withOpacity(0.1),
+          border: Border.all(color: Colors.white30),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.white, size: 40),
+            const SizedBox(height: 12),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white, fontSize: 14),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
